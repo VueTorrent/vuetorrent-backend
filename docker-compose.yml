@@ -5,5 +5,5 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - "./config.json:/app/config.json"
+      - "./data.json:/app/data.json"
     restart: always

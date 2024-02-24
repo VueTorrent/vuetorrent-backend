@@ -3,7 +3,7 @@ const fs = require('fs').promises
 
 const app = express()
 const PORT = 3000
-const CONFIG_FILE_PATH = 'config.json'
+const CONFIG_FILE_PATH = 'data.json'
 
 app.use(express.json())
 
