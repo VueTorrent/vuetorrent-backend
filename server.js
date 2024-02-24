@@ -46,6 +46,14 @@ app.put('/config/:key', async (req, res) => {
   }
 })
 
+async function handle_signal(signal) {
+  console.log(`Received ${signal} signal. Gracefully shutting down...`)
+  process.exit(0)
+}
+
+process.on('SIGTERM', handle_signal)
+process.on('SIGINT', handle_signal)
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${ PORT }`)
 })
