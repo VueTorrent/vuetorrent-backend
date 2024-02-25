@@ -2,6 +2,6 @@ FROM node:21
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
-COPY server.js server.js
+COPY src/ src/
 EXPOSE 3000
-CMD ["node", "server.js"]
+CMD ["node", "src/index.js"]
