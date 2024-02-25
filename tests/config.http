@@ -1,0 +1,17 @@
+# Fetch all config
+GET http://localhost:3000/config
+###
+# Upsert a key
+PUT http://localhost:3000/config/key1
+Content-Type: application/json
+
+{
+  "value": "value1"
+}
+###
+# Fetch that key
+GET http://localhost:3000/config/key1
+###
+# And delete it
+DELETE http://localhost:3000/config/key1
+###
