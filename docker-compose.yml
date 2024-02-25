@@ -2,8 +2,8 @@ version: '3.8'
 services:
   app:
     image: 'vuetorrent-backend'
+    restart: unless-stopped
     ports:
       - "3000:3000"
     volumes:
-      - "./data.json:/app/data.json"
-    restart: always
+      - "./data:/app/data"
