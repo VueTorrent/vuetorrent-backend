@@ -39,4 +39,20 @@ router.put('/:key', async (req, res) => {
   }
 })
 
+router.delete('/:key', async (req, res) => {
+  const { key } = req.params
+  try {
+    const config = await getData()
+    if (Object.hasOwn(config, key)) {
+      delete config[key]
+      await setData(config)
+      res.json({ message: 'Config deleted successfully' })
+    } else {
+      res.status(404).json({ error: 'Key not found' })
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 export default router
