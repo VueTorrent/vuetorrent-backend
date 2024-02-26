@@ -7,6 +7,7 @@ This is a simple Node.js web service that handles a basic key-value configuratio
 - `GET /config`: Retrieve all key-value pairs from the configuration file
 - `GET /config/:key`: Retrieve the value of a specific key
 - `PUT /config/:key`: Update or create key-value pairs in the configuration file
+- `DELETE /config/:key`: Delete a pair in the configuration file
 
 ## Installation
 
