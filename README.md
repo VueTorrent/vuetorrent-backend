@@ -40,11 +40,27 @@ The configuration file is named `data.json` and is located in the root directory
 
 You can also run the application using Docker.
 
-### Installation
+### Using Github Container Registry
 
 ```bash
-# Build docker image
-docker build -t vuetorrent-backend .
-# Start the container
-docker compose up -d
+# Pull image
+docker compose pull
+
+# Run the container
+docker compose up
+```
+
+Note: To target a specific version of the image, you must edit the `docker-compose.yml` file and change the image tag.
+See [this doc](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#pull-by-digest) for more information.
+
+### From source
+
+You'll have to toggle the comment of build and image attribute in `docker-compose.yml` to use the local image.
+
+```bash
+# Build the image
+docker compose build
+
+# Run the container
+docker compose up
 ```

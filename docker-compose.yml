@@ -1,7 +1,8 @@
 version: '3.8'
 services:
   app:
-    build: .
+    # build: .
+    image: ghcr.io/vuetorrent/vuetorrent-backend:main
     restart: unless-stopped
     ports:
       - "3000:3000"
