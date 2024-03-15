@@ -1,3 +1,4 @@
+import morgan from 'morgan'
 import cors from 'cors'
 import express from 'express'
 import configRouter from './routers/config.js'
@@ -5,6 +6,7 @@ import configRouter from './routers/config.js'
 const app = express()
 const PORT = 3000
 
+app.use(morgan('tiny'))
 app.use(express.json())
 app.use(cors())
 app.use('/config', configRouter)
