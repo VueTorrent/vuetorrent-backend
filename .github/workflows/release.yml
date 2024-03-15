@@ -1,0 +1,22 @@
+name: Release CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  setup-release:
+    name: Run Release Please action
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Run release please
+        uses: google-github-actions/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release-type: node

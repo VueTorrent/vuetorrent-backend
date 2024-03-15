@@ -3,7 +3,8 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    tags:
+      - v*
 
 env:
   REGISTRY: ghcr.io
@@ -30,7 +31,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
