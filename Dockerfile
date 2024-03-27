@@ -1,6 +1,6 @@
 FROM node:21
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm ci
 COPY src/ src/
 EXPOSE 3000
