@@ -1,14 +1,22 @@
-import morgan from 'morgan'
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import { config } from 'dotenv'
 import express from 'express'
+import morgan from 'morgan'
+import authMiddleware from './middlewares/auth.js'
 import configRouter from './routers/config.js'
 
+config()
+
 const app = express()
-const PORT = 3000
+
+const PORT = process.env.PORT || 3000
 
 app.use(morgan('tiny'))
+app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
-app.use(cors())
+app.use(cookieParser())
+app.use(authMiddleware)
 app.use('/config', configRouter)
 
 app.get('/ping', async (req, res) => {
