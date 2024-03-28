@@ -5,8 +5,11 @@ import express from 'express'
 import morgan from 'morgan'
 import authMiddleware from './middlewares/auth.js'
 import configRouter from './routers/config.js'
+import { assert_env } from './utils.js'
 
 config()
+
+assert_env()
 
 const app = express()
 

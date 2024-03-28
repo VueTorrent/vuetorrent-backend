@@ -1,9 +1,11 @@
 version: '3.8'
 services:
   app:
-    # build: .
+    #build: .
     image: ghcr.io/vuetorrent/vuetorrent-backend:latest
     restart: unless-stopped
+    environment:
+      - QBIT_BASE=http://host.docker.internal:8080
     ports:
       - "3000:3000"
     volumes:
