@@ -48,3 +48,9 @@ export async function setData(data) {
     }
   })
 }
+
+export function assert_env() {
+  if (!process.env.QBIT_BASE) {
+    throw new Error('QBIT_BASE environment variable is missing')
+  }
+}
