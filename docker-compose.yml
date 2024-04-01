@@ -1,9 +1,14 @@
 version: '3.8'
 services:
   app:
-    # build: .
+    #build: .
     image: ghcr.io/vuetorrent/vuetorrent-backend:latest
     restart: unless-stopped
+    environment:
+      - QBIT_BASE=http://host.docker.internal:8080
+    # host.docker.internal isn't available on Linux so we must include it manually
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "3000:3000"
     volumes:
