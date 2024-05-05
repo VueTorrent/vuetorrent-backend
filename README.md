@@ -14,7 +14,7 @@ This project is a Node.js web service designed to enhance the capabilities of [V
 
 Endpoints are accessible using tools like cURL, Postman, or by making HTTP requests from your browser or any programming language/framework.
 
-Every endpoints are detailed in the [Wiki](https://github.com/VueTorrent/vuetorrent-backend/wiki/Endpoints).
+You can find a list of every endpoints in the [Wiki](https://github.com/VueTorrent/vuetorrent-backend/wiki/Endpoints).
 
 ## Configuration
 
