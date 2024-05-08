@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.1.0...v1.1.1) (2024-05-08)
+
+
+### Bug Fixes
+
+* **auth:** Add DISABLE_AUTH env to disable auth check ([#15](https://github.com/VueTorrent/vuetorrent-backend/issues/15)) ([f09899d](https://github.com/VueTorrent/vuetorrent-backend/commit/f09899d19321f9b25f1b391635be88f2df656254))
+
 ## [1.1.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.0.0...v1.1.0) (2024-04-01)
 
 
