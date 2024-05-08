@@ -1,6 +1,6 @@
 {
   "name": "vuetorrent-backend",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Node.JS backend for VueTorrent",
   "main": "src/index.js",
   "scripts": {
