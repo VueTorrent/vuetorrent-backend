@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.1.1...v1.1.2) (2024-05-08)
+
+
+### Bug Fixes
+
+* **docker:** Switch to alpine base to reduce image size ([4214e9b](https://github.com/VueTorrent/vuetorrent-backend/commit/4214e9b90d9df90e96925d5665184c7ef5783725))
+
 ## [1.1.1](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.1.0...v1.1.1) (2024-05-08)
 
 
