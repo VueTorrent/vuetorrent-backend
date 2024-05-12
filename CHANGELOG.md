@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.2.0...v1.2.1) (2024-05-12)
+
+
+### Bug Fixes
+
+* **docker:** Enable multi-platform build ([946717b](https://github.com/VueTorrent/vuetorrent-backend/commit/946717b94fb717efc43c4144298b255e8e9069f6))
+
 ## [1.2.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.1.2...v1.2.0) (2024-05-12)
 
 
