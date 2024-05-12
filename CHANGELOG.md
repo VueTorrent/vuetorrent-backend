@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.1.2...v1.2.0) (2024-05-12)
+
+
+### Features
+
+* docker container support arm64 ([#18](https://github.com/VueTorrent/vuetorrent-backend/issues/18)) ([b7666f2](https://github.com/VueTorrent/vuetorrent-backend/commit/b7666f209b7b9e1649d37db46b42c1a1f4061c0d))
+
 ## [1.1.2](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.1.1...v1.1.2) (2024-05-08)
 
 
