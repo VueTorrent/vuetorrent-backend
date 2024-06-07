@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.2.2...v1.2.3) (2024-06-07)
+
+
+### Reverts
+
+* Add ARM architectures support ([#23](https://github.com/VueTorrent/vuetorrent-backend/issues/23)) ([#25](https://github.com/VueTorrent/vuetorrent-backend/issues/25)) ([ed80b5a](https://github.com/VueTorrent/vuetorrent-backend/commit/ed80b5a55080bd1366fc44fdc3a7f56b0a46ee9d))
+
 ## [1.2.2](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.2.1...v1.2.2) (2024-06-07)
 
 
