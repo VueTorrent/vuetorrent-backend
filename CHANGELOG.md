@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.2.1...v1.2.2) (2024-06-07)
+
+
+### Bug Fixes
+
+* **docker:** Add ARM architectures support ([#23](https://github.com/VueTorrent/vuetorrent-backend/issues/23)) ([14fdaf9](https://github.com/VueTorrent/vuetorrent-backend/commit/14fdaf9cac4a825a64d01b23cfa6774fa09f3634))
+
 ## [1.2.1](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.2.0...v1.2.1) (2024-05-12)
 
 
