@@ -5,6 +5,7 @@ import express from 'express'
 import morgan from 'morgan'
 import authMiddleware from './middlewares/auth.js'
 import configRouter from './routers/config.js'
+import qbitRouter from './routers/qbit.js'
 import { assert_env } from './utils.js'
 
 config()
@@ -19,6 +20,7 @@ app.use(morgan('tiny'))
 app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
 app.use(cookieParser())
+app.use('/api', qbitRouter)
 app.use(authMiddleware)
 app.use('/config', configRouter)
 
