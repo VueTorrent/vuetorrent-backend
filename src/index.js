@@ -7,6 +7,7 @@ import path from 'path'
 import authMiddleware from './middlewares/auth.js'
 import configRouter from './routers/config/index.js'
 import qbitRouter from './routers/qbit/index.js'
+import { checkForUpdate } from './routines/updates.js'
 import { assert_env } from './utils.js'
 
 config()
