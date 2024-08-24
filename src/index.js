@@ -21,8 +21,8 @@ app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
 app.use(cookieParser())
 app.use('/api', qbitRouter)
-app.use(authMiddleware)
-app.use('/config', configRouter)
+app.use('/config', authMiddleware, configRouter)
+app.use(express.static('/vuetorrent/public'))
 
 app.get('/ping', async (req, res) => {
   res.send('pong')
