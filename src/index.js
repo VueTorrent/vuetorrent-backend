@@ -23,6 +23,9 @@ app.use(cookieParser())
 app.use('/api', qbitRouter)
 app.use('/config', authMiddleware, configRouter)
 app.use(express.static('/vuetorrent/public'))
+app.use(async (req, res) => {
+  res.status(404).send('Unable to find vuetorrent installation, please make sure it is accessible at /vuetorrent/public')
+})
 
 app.get('/ping', async (req, res) => {
   res.send('pong')
