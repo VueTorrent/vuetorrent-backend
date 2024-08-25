@@ -4,8 +4,9 @@ services:
     image: ghcr.io/vuetorrent/vuetorrent-backend:latest
     restart: unless-stopped
     environment:
+      - CONFIG_PATH=/config
+      - PORT=3000
       - QBIT_BASE=http://host.docker.internal:8080
-      - PORT=8080
       - VUETORRENT_PATH=/vuetorrent
       # Only enable if using self-signed certificates
       # - USE_INSECURE_SSL=true
@@ -15,5 +16,5 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - "./data:/app/data"
+      - "./data/config:/config"
       - "./data/vuetorrent:/vuetorrent"

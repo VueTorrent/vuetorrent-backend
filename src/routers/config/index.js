@@ -1,5 +1,5 @@
 import express from 'express'
-import { getData, setData } from '../utils.js'
+import { getData, setData } from './fs.js'
 
 const router = express.Router()
 
