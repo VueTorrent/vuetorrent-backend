@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   app:
     #build: .
@@ -6,6 +5,10 @@ services:
     restart: unless-stopped
     environment:
       - QBIT_BASE=http://host.docker.internal:8080
+      - PORT=8080
+      - VUETORRENT_PATH=/vuetorrent
+      # Only enable if using self-signed certificates
+      # - USE_INSECURE_SSL=true
     # host.docker.internal isn't available on Linux so we must include it manually
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -13,3 +16,4 @@ services:
       - "3000:3000"
     volumes:
       - "./data:/app/data"
+      - "./data/vuetorrent:/vuetorrent"
