@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default async function authMiddleware(req, res, next) {
-  if (req.path === '/ping' || process.env.DISABLE_AUTH === 'true') {
+  if (req.path === '/ping') {
     return next()
   }
   const { cookies } = req

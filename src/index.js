@@ -3,8 +3,10 @@ import cors from 'cors'
 import { config } from 'dotenv'
 import express from 'express'
 import morgan from 'morgan'
+import path from 'path'
 import authMiddleware from './middlewares/auth.js'
-import configRouter from './routers/config.js'
+import configRouter from './routers/config/index.js'
+import qbitRouter from './routers/qbit/index.js'
 import { assert_env } from './utils.js'
 
 config()
@@ -19,8 +21,12 @@ app.use(morgan('tiny'))
 app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
 app.use(cookieParser())
-app.use(authMiddleware)
-app.use('/config', configRouter)
+app.use('/api', qbitRouter)
+app.use('/config', authMiddleware, configRouter)
+app.use(express.static(path.join(process.env.VUETORRENT_PATH, 'public')))
+app.use(async (req, res) => {
+  res.status(404).send('Unable to find vuetorrent installation, please make sure it is accessible at /vuetorrent/public')
+})
 
 app.get('/ping', async (req, res) => {
   res.send('pong')
