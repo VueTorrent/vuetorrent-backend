@@ -33,8 +33,7 @@ app.get('/ping', async (req, res) => {
 })
 app.get('/update', authMiddleware, async (req, res) => {
   try {
-    await checkForUpdate()
-    res.send('Update successful')
+    res.send(await checkForUpdate())
   } catch (err) {
     console.error(err)
     res.status(500).send('Failed to update')
@@ -47,14 +46,16 @@ app.use(async (req, res) => {
   res.status(404).send('Unable to find vuetorrent installation, please make sure it is accessible at /vuetorrent/public')
 })
 
-async function handle_signal(signal) {
-  console.log(`Received ${ signal } signal. Gracefully shutting down...`)
-  process.exit(0)
-}
-
-process.on('SIGTERM', handle_signal)
-process.on('SIGINT', handle_signal)
-
-app.listen(PORT, () => {
+const server = app.listen(PORT, async () => {
+  console.log('Checking for updates...')
+  console.log(await checkForUpdate())
   console.log(`Server is running on port ${ PORT }`)
 })
+
+async function stopServer(signal) {
+  console.log(`Received ${ signal } signal. Gracefully shutting down...`)
+  server.close()
+}
+
+process.on('SIGTERM', stopServer)
+process.on('SIGINT', stopServer)

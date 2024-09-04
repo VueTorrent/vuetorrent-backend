@@ -1,16 +1,27 @@
 import axios from 'axios'
 import fs from 'fs'
 import JSZip from 'jszip'
-import * as path from 'node:path'
+import path from 'path'
 
 const BASE_URL = 'https://api.github.com/repos/VueTorrent/VueTorrent/releases/'
 const STABLE_BRANCH_NAME = 'latest'
 const DEV_BRANCH_NAME = 'tags/latest_nightly'
-const PRERELEASE_VERSION_PATTERN = /v[\w-.]+-\d+-g[0-9a-f]+/
+const VERSION_PATTERN = /^v?(?<version>[0-9.]+)(-(?<commits>\d+)-g(?<sha>[0-9a-f]+))?/
+
+const BASE_FS_PATH = '/vuetorrent'
+const TEMP_ZIP_PATH = `${BASE_FS_PATH}/vuetorrent.zip`
+const VERSION_FILE_PATH = `${BASE_FS_PATH}/version.txt`
+const WEBUI_PATH = `${BASE_FS_PATH}/vuetorrent`
+const WEBUI_OLD_PATH = `${BASE_FS_PATH}/vuetorrent-old`
+
+function extractVersion(version) {
+  const match = version.match(VERSION_PATTERN)
+  return match?.groups
+}
 
 function getInstalledVersion() {
   try {
-    return fs.readFileSync('/vuetorrent/version.txt').toString()
+    return extractVersion(fs.readFileSync(VERSION_FILE_PATH).toString())
   } catch (err) {
     return null
   }
@@ -24,13 +35,10 @@ async function getLatestVersion(url) {
     }
   })
 
-  let version = response.data.tag_name
-  if (response.data.prerelease) {
-    version = response.data.name.match(PRERELEASE_VERSION_PATTERN)?.[0]
+  return {
+    latestVersion: extractVersion(response.data.name),
+    download_url: response.data.assets[0].browser_download_url
   }
-  const download_url = response.data.assets[0].browser_download_url
-
-  return { version, download_url }
 }
 
 async function downloadFile(url, outputPath) {
@@ -65,29 +73,25 @@ async function unzipFile(zipPath, extractTo) {
 }
 
 async function downloadUpdate(link) {
-  const tempZipPath = '/tmp/vuetorrent.zip'
-  const vuetorrentPath = '/vuetorrent'
-  const vuetorrentOldPath = '/vuetorrent-old'
-
   // Download zip file
-  await downloadFile(link, tempZipPath)
+  await downloadFile(link, TEMP_ZIP_PATH)
 
   // Backup current install if it exists
-  if (fs.existsSync(vuetorrentOldPath)) {
-    fs.rmdirSync(vuetorrentOldPath, { recursive: true })
+  if (fs.existsSync(WEBUI_OLD_PATH)) {
+    fs.rmSync(WEBUI_OLD_PATH, { recursive: true })
   }
-  if (fs.existsSync(vuetorrentPath)) {
-    fs.renameSync(vuetorrentPath, vuetorrentOldPath)
+  if (fs.existsSync(WEBUI_PATH)) {
+    fs.renameSync(WEBUI_PATH, WEBUI_OLD_PATH)
   }
 
   // Unzip the downloaded file
   try {
-    await unzipFile(tempZipPath, vuetorrentPath)
+    await unzipFile(TEMP_ZIP_PATH, BASE_FS_PATH)
   } catch (err) {
     console.error(err)
     // Restore backup if unzip fails
-    if (fs.existsSync(vuetorrentOldPath)) {
-      fs.renameSync(vuetorrentOldPath, vuetorrentPath)
+    if (fs.existsSync(WEBUI_OLD_PATH)) {
+      fs.renameSync(WEBUI_OLD_PATH, WEBUI_PATH)
     }
   }
 }
@@ -105,9 +109,13 @@ export async function checkForUpdate() {
   }
 
   const installedVersion = getInstalledVersion()
-  const { version, download_url } = await getLatestVersion(url)
+  const { latestVersion, download_url } = await getLatestVersion(url)
 
-  if (installedVersion !== version) {
+  if (installedVersion?.version !== latestVersion?.version
+      || installedVersion?.commits !== latestVersion?.commits
+      || installedVersion?.sha !== latestVersion?.sha) {
     await downloadUpdate(download_url)
+    return 'Update successful'
   }
+  return 'Already using the latest version'
 }

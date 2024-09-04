@@ -7,6 +7,7 @@ services:
       - CONFIG_PATH=/config
       - PORT=3000
       - QBIT_BASE=http://host.docker.internal:8080
+      - RELEASE_TYPE=stable
       # Only enable if using self-signed certificates
       # - USE_INSECURE_SSL=true
     # host.docker.internal isn't available on Linux so we must include it manually
@@ -16,3 +17,4 @@ services:
       - "3000:3000"
     volumes:
       - "./data/config:/config"
+      - "./data/vuetorrent:/vuetorrent"
