@@ -3,11 +3,10 @@ import cors from 'cors'
 import { config } from 'dotenv'
 import express from 'express'
 import morgan from 'morgan'
-import path from 'path'
 import authMiddleware from './middlewares/auth.js'
 import configRouter from './routers/config/index.js'
 import qbitRouter from './routers/qbit/index.js'
-import { checkForUpdate } from './routines/updates.js'
+import { checkForUpdate } from './routines/update.js'
 import { assert_env } from './utils.js'
 
 config()
@@ -18,19 +17,34 @@ const app = express()
 
 const PORT = process.env.PORT || 3000
 
+// Middlewares
 app.use(morgan('tiny'))
 app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
 app.use(cookieParser())
+
+// Routers
 app.use('/api', qbitRouter)
 app.use('/config', authMiddleware, configRouter)
-app.use(express.static(path.join(process.env.VUETORRENT_PATH, 'public')))
-app.use(async (req, res) => {
-  res.status(404).send('Unable to find vuetorrent installation, please make sure it is accessible at /vuetorrent/public')
-})
 
+// Routes
 app.get('/ping', async (req, res) => {
   res.send('pong')
+})
+app.get('/update', authMiddleware, async (req, res) => {
+  try {
+    await checkForUpdate()
+    res.send('Update successful')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('Failed to update')
+  }
+})
+
+// WebUI
+app.use(express.static('/vuetorrent/vuetorrent/public'))
+app.use(async (req, res) => {
+  res.status(404).send('Unable to find vuetorrent installation, please make sure it is accessible at /vuetorrent/public')
 })
 
 async function handle_signal(signal) {

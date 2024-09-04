@@ -3,17 +3,10 @@ import fs from 'fs'
 import JSZip from 'jszip'
 import * as path from 'node:path'
 
-const BASE_URL = 'https://github.com/VueTorrent/VueTorrent/zipball/'
-const STABLE_BRANCH_NAME = 'latest-release'
-const DEV_BRANCH_NAME = 'nightly-release'
-
-function getStableLink() {
-  return BASE_URL + STABLE_BRANCH_NAME
-}
-
-function getDevLink() {
-  return BASE_URL + DEV_BRANCH_NAME
-}
+const BASE_URL = 'https://api.github.com/repos/VueTorrent/VueTorrent/releases/'
+const STABLE_BRANCH_NAME = 'latest'
+const DEV_BRANCH_NAME = 'tags/latest_nightly'
+const PRERELEASE_VERSION_PATTERN = /v[\w-.]+-\d+-g[0-9a-f]+/
 
 function getInstalledVersion() {
   try {
@@ -21,6 +14,23 @@ function getInstalledVersion() {
   } catch (err) {
     return null
   }
+}
+
+async function getLatestVersion(url) {
+  /** @type {AxiosResponse<Record<string, any>>} */
+  const response = await axios.get(url, {
+    headers: {
+      Accept: 'application/vnd.github.v3+json'
+    }
+  })
+
+  let version = response.data.tag_name
+  if (response.data.prerelease) {
+    version = response.data.name.match(PRERELEASE_VERSION_PATTERN)?.[0]
+  }
+  const download_url = response.data.assets[0].browser_download_url
+
+  return { version, download_url }
 }
 
 async function downloadFile(url, outputPath) {
@@ -55,9 +65,9 @@ async function unzipFile(zipPath, extractTo) {
 }
 
 async function downloadUpdate(link) {
-  const tempZipPath = process.env.TEMP_UPDATE_PATH ?? '/tmp/vuetorrent.zip'
-  const vuetorrentPath = process.env.VUETORRENT_PATH ?? '/vuetorrent'
-  const vuetorrentOldPath = process.env.OLD_VUETORRENT_PATH ?? '/vuetorrent-old'
+  const tempZipPath = '/tmp/vuetorrent.zip'
+  const vuetorrentPath = '/vuetorrent'
+  const vuetorrentOldPath = '/vuetorrent-old'
 
   // Download zip file
   await downloadFile(link, tempZipPath)
@@ -83,15 +93,21 @@ async function downloadUpdate(link) {
 }
 
 export async function checkForUpdate() {
-  // TODO: Check for current to prevent redundent updates, requires an identifier for dev versions
-
+  let url
   switch (process.env.RELEASE_TYPE) {
     case 'dev':
-      await downloadUpdate(getDevLink())
+      url = BASE_URL + DEV_BRANCH_NAME
       break
     case 'stable':
     default:
-      await downloadUpdate(getStableLink())
+      url = BASE_URL + STABLE_BRANCH_NAME
       break
+  }
+
+  const installedVersion = getInstalledVersion()
+  const { version, download_url } = await getLatestVersion(url)
+
+  if (installedVersion !== version) {
+    await downloadUpdate(download_url)
   }
 }
