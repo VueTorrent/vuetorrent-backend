@@ -5,8 +5,8 @@ import express from 'express'
 import morgan from 'morgan'
 import path from 'path'
 import authMiddleware from './middlewares/auth.js'
-import configRouter from './routers/config'
-import qbitRouter from './routers/qbit'
+import configRouter from './routers/config/index.js'
+import qbitRouter from './routers/qbit/index.js'
 import { assert_env } from './utils.js'
 
 config()
