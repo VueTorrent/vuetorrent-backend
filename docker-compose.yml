@@ -1,20 +1,46 @@
 services:
-  app:
+  qbit:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbit
+    restart: unless-stopped
+    networks:
+      - qbit-net
+    environment:
+      - WEBUI_PORT=8080
+      - PUID=1000
+      - PGID=1000
+    ports:
+      # qBittorrent WebUI is exposed by vuetorrent-backend service
+      # - "8080:8080"
+
+      # qBittorrent ports, NAT port forwarding required for them to work
+      - "6881:6881"
+      - "6881:6881/udp"
+    volumes:
+      - "./data/qbittorrent:/config"
+      - "./data/downloads:/downloads"
+      - "./data/torrents:/torrents"
+
+  vuetorrent-backend:
     build: .
 #    image: ghcr.io/vuetorrent/vuetorrent-backend:latest
+    container_name: vuetorrent-backend
     restart: unless-stopped
+    networks:
+      - qbit-net
     environment:
       - CONFIG_PATH=/config
-      - PORT=3000
-      - QBIT_BASE=http://host.docker.internal:8080
+      # Backend port needs to match qbit one to avoid "Host header validation" issues
+      - PORT=8080
+      - QBIT_BASE=http://qbit:8080
       - RELEASE_TYPE=stable
       # Only enable if using self-signed certificates
       # - USE_INSECURE_SSL=true
-    # host.docker.internal isn't available on Linux so we must include it manually
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     ports:
-      - "3000:3000"
+      - "8080:8080"
     volumes:
       - "./data/config:/config"
-      - "./data/vuetorrent:/vuetorrent"
+
+networks:
+  qbit-net:
+    driver: bridge

@@ -10,8 +10,8 @@ const VERSION_PATTERN = /^v?(?<version>[0-9.]+)(-(?<commits>\d+)-g(?<sha>[0-9a-f
 
 const BASE_FS_PATH = '/vuetorrent'
 const TEMP_ZIP_PATH = `${BASE_FS_PATH}/vuetorrent.zip`
-const VERSION_FILE_PATH = `${BASE_FS_PATH}/version.txt`
 const WEBUI_PATH = `${BASE_FS_PATH}/vuetorrent`
+const VERSION_FILE_PATH = `${WEBUI_PATH}/version.txt`
 const WEBUI_OLD_PATH = `${BASE_FS_PATH}/vuetorrent-old`
 
 function extractVersion(version) {
@@ -19,10 +19,19 @@ function extractVersion(version) {
   return match?.groups
 }
 
+function formatVersion(version) {
+  if (!version) return 'unknown'
+  if (!version.commits || !version.sha) return `v${version.version}`
+  return `v${version.version}-${version.commits}-g${version.sha}`
+}
+
 function getInstalledVersion() {
+  if (!fs.existsSync(VERSION_FILE_PATH)) return null
+
   try {
     return extractVersion(fs.readFileSync(VERSION_FILE_PATH).toString())
   } catch (err) {
+    console.error(err)
     return null
   }
 }
@@ -73,6 +82,10 @@ async function unzipFile(zipPath, extractTo) {
 }
 
 async function downloadUpdate(link) {
+  if (!fs.existsSync(BASE_FS_PATH)) {
+    fs.mkdirSync(BASE_FS_PATH, { recursive: true })
+  }
+
   // Download zip file
   await downloadFile(link, TEMP_ZIP_PATH)
 
@@ -115,7 +128,7 @@ export async function checkForUpdate() {
       || installedVersion?.commits !== latestVersion?.commits
       || installedVersion?.sha !== latestVersion?.sha) {
     await downloadUpdate(download_url)
-    return 'Update successful'
+    return `Update successful from ${formatVersion(installedVersion)} to ${formatVersion(latestVersion)}`
   }
   return 'Already using the latest version'
 }
