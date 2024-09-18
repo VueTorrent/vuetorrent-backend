@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.2.3...v2.0.0) (2024-09-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* Forward API requests to qBittorrent ([#35](https://github.com/VueTorrent/vuetorrent-backend/issues/35))
+
+### Features
+
+* Add update management routes ([#36](https://github.com/VueTorrent/vuetorrent-backend/issues/36)) ([f26dffe](https://github.com/VueTorrent/vuetorrent-backend/commit/f26dffeb7f6854f431a7cc7b70754de1e4be8024))
+* Forward API requests to qBittorrent ([#35](https://github.com/VueTorrent/vuetorrent-backend/issues/35)) ([acd643b](https://github.com/VueTorrent/vuetorrent-backend/commit/acd643b05746dcb65fbadf4509c16cea23d81b03))
+
 ## [1.2.3](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.2.2...v1.2.3) (2024-06-07)
 
 
