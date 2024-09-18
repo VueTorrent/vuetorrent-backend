@@ -22,8 +22,8 @@ services:
       - "./data/torrents:/torrents"
 
   vuetorrent-backend:
-    build: .
-#    image: ghcr.io/vuetorrent/vuetorrent-backend:latest
+    # build: .
+    image: ghcr.io/vuetorrent/vuetorrent-backend:latest
     container_name: vuetorrent-backend
     restart: unless-stopped
     networks:
