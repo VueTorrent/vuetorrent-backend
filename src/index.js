@@ -1,7 +1,7 @@
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import { config } from 'dotenv'
-import express from 'express'
+import express, { Router } from 'express'
 import morgan from 'morgan'
 import authMiddleware from './middlewares/auth.js'
 import configRouter from './routers/config/index.js'
@@ -10,10 +10,10 @@ import { checkForUpdate } from './routines/update.js'
 import { assert_env } from './utils.js'
 
 config()
-
 assert_env()
 
 const app = express()
+const router = Router()
 
 const PORT = process.env.PORT || 3000
 
@@ -24,14 +24,14 @@ app.use(express.json())
 app.use(cookieParser())
 
 // Routers
-app.use('/api', qbitRouter)
-app.use('/config', authMiddleware, configRouter)
+router.use('/api', qbitRouter)
+router.use('/config', authMiddleware, configRouter)
 
 // Routes
-app.get('/ping', async (req, res) => {
+router.get('/ping', async (req, res) => {
   res.send('pong')
 })
-app.get('/update', authMiddleware, async (req, res) => {
+router.get('/update', authMiddleware, async (req, res) => {
   try {
     res.send(await checkForUpdate())
   } catch (err) {
@@ -39,6 +39,8 @@ app.get('/update', authMiddleware, async (req, res) => {
     res.status(500).send('Failed to update')
   }
 })
+
+app.use('/backend', router)
 
 // WebUI
 app.use(express.static('/vuetorrent/vuetorrent/public'))
