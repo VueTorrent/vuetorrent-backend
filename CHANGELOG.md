@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.0.0...v2.0.1) (2024-09-19)
+
+
+### Bug Fixes
+
+* Add /backend prefix to all routes ([#40](https://github.com/VueTorrent/vuetorrent-backend/issues/40)) ([4849614](https://github.com/VueTorrent/vuetorrent-backend/commit/4849614fa8fbbde1059ac24ffa437348d79140c5))
+
 ## [2.0.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v1.2.3...v2.0.0) (2024-09-18)
 
 
