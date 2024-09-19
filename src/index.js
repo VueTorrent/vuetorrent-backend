@@ -43,9 +43,9 @@ router.get('/update', authMiddleware, async (req, res) => {
 app.use('/backend', router)
 
 // WebUI
-app.use(express.static('/vuetorrent/vuetorrent/public'))
+app.use(express.static(`${process.env.VUETORRENT_PATH || '/vuetorrent'}/vuetorrent/public`))
 app.use(async (req, res) => {
-  res.status(404).send('Unable to find vuetorrent installation, please make sure it is accessible at /vuetorrent/public')
+  res.status(404).send('404 Not Found')
 })
 
 const server = app.listen(PORT, async () => {
