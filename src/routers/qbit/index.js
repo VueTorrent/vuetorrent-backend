@@ -1,7 +1,7 @@
-import express from 'express'
+import { Router } from 'express'
 import httpProxy from 'http-proxy'
 
-const router = express.Router()
+const router = Router()
 
 router.use((req, res, next) => {
   const proxy = httpProxy.createProxyServer({

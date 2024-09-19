@@ -1,14 +1,17 @@
 import axios from 'axios'
+import { config } from 'dotenv'
 import fs from 'fs'
 import JSZip from 'jszip'
 import path from 'path'
 
+config()
+
 const BASE_URL = 'https://api.github.com/repos/VueTorrent/VueTorrent/releases/'
 const STABLE_BRANCH_NAME = 'latest'
 const DEV_BRANCH_NAME = 'tags/latest_nightly'
-const VERSION_PATTERN = /^v?(?<version>[0-9.]+)(-(?<commits>\d+)-g(?<sha>[0-9a-f]+))?/
+const VERSION_PATTERN = /^v?(?<version>[0-9.]+)(-(?<commits>\d+)-g(?<sha>[0-9a-f]+))?$/
 
-const BASE_FS_PATH = '/vuetorrent'
+const BASE_FS_PATH = process.env.VUETORRENT_PATH || '/vuetorrent'
 const TEMP_ZIP_PATH = `${BASE_FS_PATH}/vuetorrent.zip`
 const WEBUI_PATH = `${BASE_FS_PATH}/vuetorrent`
 const VERSION_FILE_PATH = `${WEBUI_PATH}/version.txt`
