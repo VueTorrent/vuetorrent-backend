@@ -41,6 +41,9 @@ services:
     volumes:
       - "./data/config:/config"
 
+# This network is only there for the example,
+# if you already have an external network (e.g. for use with a reverse proxy),
+# you can use the existing one instead.
 networks:
   qbit-net:
     driver: bridge
