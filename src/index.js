@@ -24,7 +24,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 // Routers
-router.use('/api', qbitRouter)
+app.use('/api', qbitRouter)
 router.use('/config', authMiddleware, configRouter)
 
 // Routes
