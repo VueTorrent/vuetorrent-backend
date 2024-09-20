@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.2](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.0.1...v2.0.2) (2024-09-20)
+
+
+### Bug Fixes
+
+* **router:** Remove /backend prefix on /api requests ([#45](https://github.com/VueTorrent/vuetorrent-backend/issues/45)) ([512c619](https://github.com/VueTorrent/vuetorrent-backend/commit/512c61959d28093356482754a395f4349e8fd6b2))
+
+
+### Performance Improvements
+
+* Update 404 error message ([#43](https://github.com/VueTorrent/vuetorrent-backend/issues/43)) ([fc5a1dd](https://github.com/VueTorrent/vuetorrent-backend/commit/fc5a1ddecaa13aa42da204a69da51dbd76de68ca))
+
 ## [2.0.1](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.0.0...v2.0.1) (2024-09-19)
 
 
