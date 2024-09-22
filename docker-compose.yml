@@ -29,7 +29,6 @@ services:
     networks:
       - qbit-net
     environment:
-      - CONFIG_PATH=/config
       # Backend port needs to match qbit one to avoid "Host header validation" issues
       - PORT=8080
       - QBIT_BASE=http://qbit:8080
