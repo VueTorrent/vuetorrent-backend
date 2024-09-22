@@ -34,6 +34,8 @@ services:
       - QBIT_BASE=http://qbit:8080
       # Use "dev" for nightly releases
       - RELEASE_TYPE=stable
+      # Optional, refer to the node-schedule package for compatible syntax
+      - UPDATE_VT_CRON=0 * * * *
       # Only enable if using self-signed certificates
       # - USE_INSECURE_SSL=true
     ports:
