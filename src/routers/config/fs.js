@@ -4,7 +4,7 @@ import path from 'path'
 const queue = []
 
 function getDataFilePath() {
-  return path.join(process.env.CONFIG_PATH, 'data.json')
+  return path.join(process.env.CONFIG_PATH || '/config', 'data.json')
 }
 
 async function processQueue() {
