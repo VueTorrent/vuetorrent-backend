@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.0.2...v2.1.0) (2024-09-22)
+
+
+### Features
+
+* Add auto-update scheduler for WebUI ([16bd320](https://github.com/VueTorrent/vuetorrent-backend/commit/16bd3204615e02bb7b4d089776138345d99c16be))
+
+
+### Bug Fixes
+
+* Make dev-only CONFIG_PATH env optional ([503434b](https://github.com/VueTorrent/vuetorrent-backend/commit/503434b512e73c422d5b884535990ff46c1b1242))
+
 ## [2.0.2](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.0.1...v2.0.2) (2024-09-20)
 
 
