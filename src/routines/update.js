@@ -6,16 +6,18 @@ import path from 'path'
 
 config()
 
-const BASE_URL = 'https://api.github.com/repos/VueTorrent/VueTorrent/releases/'
-const STABLE_BRANCH_NAME = 'latest'
-const DEV_BRANCH_NAME = 'tags/latest_nightly'
+
+const BASE_URL_VERSION = 'https://api.github.com/repos/VueTorrent/VueTorrent/contents/version.txt?ref='
+const BASE_URL_ZIPBALL = 'https://api.github.com/repos/VueTorrent/VueTorrent/zipball/'
+const STABLE_BRANCH_NAME = 'latest-release'
+const DEV_BRANCH_NAME = 'nightly-release'
 const VERSION_PATTERN = /^v?(?<version>[0-9.]+)(-(?<commits>\d+)-g(?<sha>[0-9a-f]+))?$/
 
 const BASE_FS_PATH = process.env.VUETORRENT_PATH || '/vuetorrent'
-const TEMP_ZIP_PATH = `${BASE_FS_PATH}/vuetorrent.zip`
-const WEBUI_PATH = `${BASE_FS_PATH}/vuetorrent`
-const VERSION_FILE_PATH = `${WEBUI_PATH}/version.txt`
-const WEBUI_OLD_PATH = `${BASE_FS_PATH}/vuetorrent-old`
+const TEMP_ZIP_PATH = `${ BASE_FS_PATH }/vuetorrent.zip`
+const WEBUI_PATH = `${ BASE_FS_PATH }/vuetorrent`
+const VERSION_FILE_PATH = `${ WEBUI_PATH }/version.txt`
+const WEBUI_OLD_PATH = `${ BASE_FS_PATH }/vuetorrent-old`
 
 function extractVersion(version) {
   const match = version.match(VERSION_PATTERN)
@@ -24,8 +26,8 @@ function extractVersion(version) {
 
 function formatVersion(version) {
   if (!version) return 'unknown'
-  if (!version.commits || !version.sha) return `v${version.version}`
-  return `v${version.version}-${version.commits}-g${version.sha}`
+  if (!version.commits || !version.sha) return `v${ version.version }`
+  return `v${ version.version }-${ version.commits }-g${ version.sha }`
 }
 
 function getInstalledVersion() {
@@ -47,10 +49,8 @@ async function getLatestVersion(url) {
     }
   })
 
-  return {
-    latestVersion: extractVersion(response.data.name),
-    download_url: response.data.assets[0].browser_download_url
-  }
+  // Extract from base64
+  return extractVersion(atob(response.data.content.trim()))
 }
 
 async function downloadFile(url, outputPath) {
@@ -74,7 +74,8 @@ async function unzipFile(zipPath, extractTo) {
   const zip = await JSZip.loadAsync(data)
   await Promise.all(Object.keys(zip.files).map(async (filename) => {
     const file = zip.files[filename]
-    const filePath = path.join(extractTo, filename)
+    const newName = filename.slice(filename.indexOf('/'))
+    const filePath = path.join(extractTo, newName)
     if (file.dir) {
       fs.mkdirSync(filePath, { recursive: true })
     } else {
@@ -102,7 +103,7 @@ async function downloadUpdate(link) {
 
   // Unzip the downloaded file
   try {
-    await unzipFile(TEMP_ZIP_PATH, BASE_FS_PATH)
+    await unzipFile(TEMP_ZIP_PATH, WEBUI_PATH)
   } catch (err) {
     console.error(err)
     // Restore backup if unzip fails
@@ -113,25 +114,27 @@ async function downloadUpdate(link) {
 }
 
 export async function checkForUpdate() {
-  let url
+  let versionUrl, downloadUrl
   switch (process.env.RELEASE_TYPE) {
     case 'dev':
-      url = BASE_URL + DEV_BRANCH_NAME
+      versionUrl = BASE_URL_VERSION + DEV_BRANCH_NAME
+      downloadUrl = BASE_URL_ZIPBALL + DEV_BRANCH_NAME
       break
     case 'stable':
     default:
-      url = BASE_URL + STABLE_BRANCH_NAME
+      versionUrl = BASE_URL_VERSION + STABLE_BRANCH_NAME
+      downloadUrl = BASE_URL_ZIPBALL + STABLE_BRANCH_NAME
       break
   }
 
   const installedVersion = getInstalledVersion()
-  const { latestVersion, download_url } = await getLatestVersion(url)
+  const latestVersion = await getLatestVersion(versionUrl)
 
   if (installedVersion?.version !== latestVersion?.version
-      || installedVersion?.commits !== latestVersion?.commits
-      || installedVersion?.sha !== latestVersion?.sha) {
-    await downloadUpdate(download_url)
-    return `Update successful from ${formatVersion(installedVersion)} to ${formatVersion(latestVersion)}`
+    || installedVersion?.commits !== latestVersion?.commits
+    || installedVersion?.sha !== latestVersion?.sha) {
+    await downloadUpdate(downloadUrl)
+    return `Update successful from ${ formatVersion(installedVersion) } to ${ formatVersion(latestVersion) }`
   }
   return 'Already using the latest version'
 }
