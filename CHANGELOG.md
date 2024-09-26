@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.1.0...v2.1.1) (2024-09-26)
+
+
+### Bug Fixes
+
+* **update:** Use release branches instead of release asset ([#51](https://github.com/VueTorrent/vuetorrent-backend/issues/51)) ([25b139b](https://github.com/VueTorrent/vuetorrent-backend/commit/25b139b9986a5fc7154b231377d2664e59ff6a9f))
+
 ## [2.1.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.0.2...v2.1.0) (2024-09-22)
 
 
