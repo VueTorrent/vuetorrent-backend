@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.1.1...v2.1.2) (2024-10-01)
+
+
+### Bug Fixes
+
+* **Docker:** Allow container with non-root user ([#54](https://github.com/VueTorrent/vuetorrent-backend/issues/54)) ([bc4bf70](https://github.com/VueTorrent/vuetorrent-backend/commit/bc4bf707c86d9effefeb5b6226d2df30ff79c5fb))
+
 ## [2.1.1](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.1.0...v2.1.1) (2024-09-26)
 
 
