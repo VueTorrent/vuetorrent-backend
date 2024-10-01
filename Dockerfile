@@ -1,4 +1,5 @@
 FROM node:21-alpine
+RUN mkdir -p -m 0777 /vuetorrent
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
