@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.1.2...v2.1.3) (2024-10-06)
+
+
+### Bug Fixes
+
+* **auth:** Handle 401 being thrown on login ([5c0e24b](https://github.com/VueTorrent/vuetorrent-backend/commit/5c0e24bde11b135a11c7fbd8e5156a19530542cf))
+
 ## [2.1.2](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.1.1...v2.1.2) (2024-10-01)
 
 
