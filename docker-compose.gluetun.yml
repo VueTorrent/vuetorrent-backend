@@ -1,0 +1,60 @@
+services:
+  gluetun:
+    image: ghcr.io/qdm12/gluetun:latest
+    container_name: gluetun
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    environment:
+      # Include your gluetun config here
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+    volumes:
+      - "./data/gluetun:/gluetun"
+    ports:
+      - 8123:8123/tcp # Gluetun API
+
+      # qBittorrent ports, vuetorrent-backend will forward requests to it so no need to expose it
+      # - "8080:8080"
+      # NAT port forwarding required for them to work
+      - "6881:6881"
+      - "6881:6881/udp"
+
+      # vuetorrent-backend
+      - "8081:8081"
+
+  qbit:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbit
+    restart: unless-stopped
+    network_mode: service:gluetun
+    environment:
+      - WEBUI_PORT=8080
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - "./data/qbittorrent:/config"
+      - "./data/downloads:/downloads"
+      - "./data/torrents:/torrents"
+
+  vuetorrent-backend:
+    # build: .
+    image: ghcr.io/vuetorrent/vuetorrent-backend:latest
+    container_name: vuetorrent-backend
+    restart: unless-stopped
+    network_mode: service:gluetun
+    environment:
+      # Backend port can't match qbit one because of the network_mode
+      # You'll have to remove "Host header validation" in qbit settings > WebUI
+      - PORT=8081
+
+      # Here we can use localhost because both qbit and backend container are on the same docker host (network_mode)
+      - QBIT_BASE=http://localhost:8080
+      # Use "dev" for nightly releases
+      - RELEASE_TYPE=stable
+      # Optional, refer to the node-schedule package for compatible syntax
+      - UPDATE_VT_CRON=0 * * * *
+      # Only enable if using self-signed certificates
+      # - USE_INSECURE_SSL=true
+    volumes:
+      - "./data/config:/config"
