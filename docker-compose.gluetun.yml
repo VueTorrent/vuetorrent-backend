@@ -57,6 +57,6 @@ services:
       # Only enable if using self-signed certificates
       # - USE_INSECURE_SSL=true
       # Only enable if backend container is behind a proxy server which already add x-forward headers
-      # - REMAIN_X_FORWARD_HEADERS=true
+      # - SKIP_X_FORWARD_HEADERS=true
     volumes:
       - "./data/config:/config"
