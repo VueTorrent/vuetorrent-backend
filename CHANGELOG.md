@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.1.3...v2.2.0) (2024-12-15)
+
+
+### Features
+
+* **Docker:** expose a SKIP_X_FORWARD_HEADERS option ([#75](https://github.com/VueTorrent/vuetorrent-backend/issues/75)) ([b3677ab](https://github.com/VueTorrent/vuetorrent-backend/commit/b3677ab3db379aae3bfe55352e270f81e24843f2))
+
 ## [2.1.3](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.1.2...v2.1.3) (2024-10-06)
 
 
