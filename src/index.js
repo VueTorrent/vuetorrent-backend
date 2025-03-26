@@ -3,7 +3,7 @@ import cors from 'cors'
 import { config } from 'dotenv'
 import express, { Router } from 'express'
 import morgan from 'morgan'
-import { scheduleJob } from 'node-schedule'
+import scheduler from 'node-schedule'
 import authMiddleware from './middlewares/auth.js'
 import configRouter from './routers/config/index.js'
 import qbitRouter from './routers/qbit/index.js'
@@ -56,7 +56,7 @@ const server = app.listen(PORT, async () => {
 
   const update_cron = process.env.UPDATE_VT_CRON
   if (update_cron && update_cron.length) {
-    scheduleJob(
+    scheduler.scheduleJob(
       'Update VueTorrent',
       update_cron,
       async () => {
@@ -69,6 +69,7 @@ const server = app.listen(PORT, async () => {
 async function stopServer(signal) {
   console.log(`Received ${ signal } signal. Gracefully shutting down...`)
   server.close()
+  await scheduler.gracefulShutdown()
 }
 
 process.on('SIGTERM', stopServer)
