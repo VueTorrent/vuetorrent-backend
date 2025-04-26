@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.2.0...v2.3.0) (2025-04-26)
+
+
+### Features
+
+* Allow version pinning ([#89](https://github.com/VueTorrent/vuetorrent-backend/issues/89)) ([1a56892](https://github.com/VueTorrent/vuetorrent-backend/commit/1a56892c32159633cbca7f2a16551c0fcf93d5f6))
+* **GitHub:** Add PAT support for increased rate limit ([#87](https://github.com/VueTorrent/vuetorrent-backend/issues/87)) ([2318ca4](https://github.com/VueTorrent/vuetorrent-backend/commit/2318ca434adb680bd170c2ebd890bdbb42c1e161))
+
 ## [2.2.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.1.3...v2.2.0) (2024-12-15)
 
 
