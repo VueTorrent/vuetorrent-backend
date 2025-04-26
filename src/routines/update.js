@@ -7,8 +7,8 @@ import path from 'path'
 config()
 
 
-const BASE_URL_VERSION = 'https://api.github.com/repos/VueTorrent/VueTorrent/contents/version.txt?ref='
-const BASE_URL_ZIPBALL = 'https://api.github.com/repos/VueTorrent/VueTorrent/zipball/'
+const BASE_URL_VERSION = '/repos/VueTorrent/VueTorrent/contents/version.txt?ref='
+const BASE_URL_ZIPBALL = '/repos/VueTorrent/VueTorrent/zipball/'
 const STABLE_BRANCH_NAME = 'latest-release'
 const DEV_BRANCH_NAME = 'nightly-release'
 const VERSION_PATTERN = /^v?(?<version>[0-9.]+)(-(?<commits>\d+)-g(?<sha>[0-9a-f]+))?$/
@@ -18,6 +18,14 @@ const TEMP_ZIP_PATH = `${ BASE_FS_PATH }/vuetorrent.zip`
 const WEBUI_PATH = `${ BASE_FS_PATH }/vuetorrent`
 const VERSION_FILE_PATH = `${ WEBUI_PATH }/version.txt`
 const WEBUI_OLD_PATH = `${ BASE_FS_PATH }/vuetorrent-old`
+
+const githubClient = axios.create({
+  baseURL: 'https://api.github.com',
+  headers: {
+    Accept: 'application/vnd.github.v3+json',
+    Authorization: process.env.GITHUB_AUTH ? `Bearer ${process.env.GITHUB_AUTH}` : undefined,
+  }
+})
 
 function extractVersion(version) {
   const match = version.match(VERSION_PATTERN)
@@ -41,13 +49,9 @@ function getInstalledVersion() {
   }
 }
 
-async function getLatestVersion(url) {
+async function getLatestVersion(ref) {
   /** @type {AxiosResponse<Record<string, any>>} */
-  const response = await axios.get(url, {
-    headers: {
-      Accept: 'application/vnd.github.v3+json'
-    }
-  })
+  const response = await githubClient.get(BASE_URL_VERSION + ref)
 
   // Extract from base64
   return extractVersion(atob(response.data.content.trim()))
@@ -55,7 +59,7 @@ async function getLatestVersion(url) {
 
 async function downloadFile(url, outputPath) {
   const writer = fs.createWriteStream(outputPath)
-  const response = await axios({
+  const response = await githubClient({
     url,
     method: 'GET',
     responseType: 'stream'
@@ -85,13 +89,13 @@ async function unzipFile(zipPath, extractTo) {
   }))
 }
 
-async function downloadUpdate(link) {
+async function downloadUpdate(ref) {
   if (!fs.existsSync(BASE_FS_PATH)) {
     fs.mkdirSync(BASE_FS_PATH, { recursive: true })
   }
 
   // Download zip file
-  await downloadFile(link, TEMP_ZIP_PATH)
+  await downloadFile(BASE_URL_ZIPBALL + ref, TEMP_ZIP_PATH)
 
   // Backup current install if it exists
   if (fs.existsSync(WEBUI_OLD_PATH)) {
@@ -114,26 +118,24 @@ async function downloadUpdate(link) {
 }
 
 export async function checkForUpdate() {
-  let versionUrl, downloadUrl
+  let branchName
   switch (process.env.RELEASE_TYPE) {
     case 'dev':
-      versionUrl = BASE_URL_VERSION + DEV_BRANCH_NAME
-      downloadUrl = BASE_URL_ZIPBALL + DEV_BRANCH_NAME
+      branchName = DEV_BRANCH_NAME
       break
     case 'stable':
     default:
-      versionUrl = BASE_URL_VERSION + STABLE_BRANCH_NAME
-      downloadUrl = BASE_URL_ZIPBALL + STABLE_BRANCH_NAME
+      branchName = STABLE_BRANCH_NAME
       break
   }
 
   const installedVersion = getInstalledVersion()
-  const latestVersion = await getLatestVersion(versionUrl)
+  const latestVersion = await getLatestVersion(branchName)
 
   if (installedVersion?.version !== latestVersion?.version
     || installedVersion?.commits !== latestVersion?.commits
     || installedVersion?.sha !== latestVersion?.sha) {
-    await downloadUpdate(downloadUrl)
+    await downloadUpdate(branchName)
     return `Update successful from ${ formatVersion(installedVersion) } to ${ formatVersion(latestVersion) }`
   }
   return 'Already using the latest version'
