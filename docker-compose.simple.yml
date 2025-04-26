@@ -40,6 +40,10 @@ services:
       # - USE_INSECURE_SSL=true
       # Only enable if backend container is behind a proxy server which already add x-forward headers
       # - SKIP_X_FORWARD_HEADERS=true
+      # Create a Github PAT with your account to increase API rate limit
+      # fine-grained token with public repo access is enough
+      # https://github.com/settings/personal-access-tokens/new
+      # - GITHUB_AUTH=${GITHUB_AUTH}
     ports:
       - "8080:8080"
     volumes:
