@@ -9,6 +9,7 @@ config()
 
 const BASE_URL_VERSION = '/repos/VueTorrent/VueTorrent/contents/version.txt?ref='
 const BASE_URL_ZIPBALL = '/repos/VueTorrent/VueTorrent/zipball/'
+const BASE_URL_RELEASE = 'https://github.com/VueTorrent/VueTorrent/releases/download/$TAG/vuetorrent.zip'
 const STABLE_BRANCH_NAME = 'latest-release'
 const DEV_BRANCH_NAME = 'nightly-release'
 const VERSION_PATTERN = /^v?(?<version>[0-9.]+)(-(?<commits>\d+)-g(?<sha>[0-9a-f]+))?$/
@@ -24,9 +25,16 @@ const githubClient = axios.create({
   headers: {
     Accept: 'application/vnd.github.v3+json',
     Authorization: process.env.GITHUB_AUTH ? `Bearer ${process.env.GITHUB_AUTH}` : undefined,
+    'User-Agent': `vuetorrent/vuetorrent-backend`
   }
 })
 
+/** @typedef {{ version: string; commits?: string; sha?: string }} VersionType */
+
+/**
+ * @param version {string}
+ * @returns {VersionType | undefined}
+ */
 function extractVersion(version) {
   const match = version.match(VERSION_PATTERN)
   return match?.groups
@@ -89,13 +97,13 @@ async function unzipFile(zipPath, extractTo) {
   }))
 }
 
-async function downloadUpdate(ref) {
+async function downloadUpdate(url) {
   if (!fs.existsSync(BASE_FS_PATH)) {
     fs.mkdirSync(BASE_FS_PATH, { recursive: true })
   }
 
   // Download zip file
-  await downloadFile(BASE_URL_ZIPBALL + ref, TEMP_ZIP_PATH)
+  await downloadFile(url, TEMP_ZIP_PATH)
 
   // Backup current install if it exists
   if (fs.existsSync(WEBUI_OLD_PATH)) {
@@ -120,23 +128,41 @@ async function downloadUpdate(ref) {
 export async function checkForUpdate() {
   let branchName
   switch (process.env.RELEASE_TYPE) {
-    case 'dev':
-      branchName = DEV_BRANCH_NAME
-      break
+    case undefined:
     case 'stable':
-    default:
+    case 'latest':
       branchName = STABLE_BRANCH_NAME
+      break
+    case 'dev':
+    case 'nightly':
+      branchName = DEV_BRANCH_NAME
       break
   }
 
   const installedVersion = getInstalledVersion()
-  const latestVersion = await getLatestVersion(branchName)
+
+  /** @type {VersionType | undefined} */
+  let latestVersion
+  if (!branchName) {
+    // If unknown release type is specified, we try to match a specific version
+    latestVersion = extractVersion(process.env.RELEASE_TYPE)
+  } else {
+    latestVersion = await getLatestVersion(branchName)
+  }
+
+  if (!latestVersion) {
+    return `Unable to find candidate for release type "${ process.env.RELEASE_TYPE }"`
+  }
 
   if (installedVersion?.version !== latestVersion?.version
     || installedVersion?.commits !== latestVersion?.commits
     || installedVersion?.sha !== latestVersion?.sha) {
-    await downloadUpdate(branchName)
+    if (!branchName) {
+      await downloadUpdate(BASE_URL_RELEASE.replace('$TAG', `v${latestVersion.version}`))
+    } else {
+      await downloadUpdate(BASE_URL_ZIPBALL + branchName)
+    }
     return `Update successful from ${ formatVersion(installedVersion) } to ${ formatVersion(latestVersion) }`
   }
-  return 'Already using the latest version'
+  return `Instance up-to-date using ref ${process.env.RELEASE_TYPE}`
 }
