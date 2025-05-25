@@ -36,8 +36,12 @@ services:
       - RELEASE_TYPE=stable
       # Optional, refer to the node-schedule package for compatible syntax
       - UPDATE_VT_CRON=0 * * * *
-      # Only enable if using self-signed certificates on qBittorrent
+
+      # Define this if using self-signed certificates on qBittorrent
+      # - NODE_EXTRA_CA_CERTS=/config/ssl/cert.pem
+      # You can also disable SSL verification (not recommended)
       # - USE_INSECURE_SSL=true
+
       # Only enable if backend container is behind a proxy server which already add x-forward headers
       # - SKIP_X_FORWARD_HEADERS=true
       # Create a Github PAT with your account to increase API rate limit
