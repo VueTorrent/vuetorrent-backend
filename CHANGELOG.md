@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.3.0...v2.4.0) (2025-05-25)
+
+
+### Features
+
+* Support running server in HTTPS ([#92](https://github.com/VueTorrent/vuetorrent-backend/issues/92)) ([790bbdb](https://github.com/VueTorrent/vuetorrent-backend/commit/790bbdb70b4c2a5b98e654d720901b50d35bc0fd))
+
 ## [2.3.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.2.0...v2.3.0) (2025-04-26)
 
 
