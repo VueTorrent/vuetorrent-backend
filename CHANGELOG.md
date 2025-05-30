@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.4.0...v2.5.0) (2025-05-30)
+
+
+### Features
+
+* **ci:** Add "latest-release" tag on source release ([#95](https://github.com/VueTorrent/vuetorrent-backend/issues/95)) ([f658dbc](https://github.com/VueTorrent/vuetorrent-backend/commit/f658dbc1e4ee954efd3bb1c2cbae2922a7017c80))
+
 ## [2.4.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.3.0...v2.4.0) (2025-05-25)
 
 
