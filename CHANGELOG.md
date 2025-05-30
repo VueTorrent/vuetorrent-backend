@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.1](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.5.0...v2.5.1) (2025-05-30)
+
+
+### Bug Fixes
+
+* **ci:** Update token permissions ([c595def](https://github.com/VueTorrent/vuetorrent-backend/commit/c595deff6d9740f9ff98cdc0f0380300149342f1))
+
 ## [2.5.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.4.0...v2.5.0) (2025-05-30)
 
 
