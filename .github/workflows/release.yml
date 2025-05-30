@@ -33,7 +33,7 @@ jobs:
     needs: setup-release
     if: needs.setup-release.outputs.release_created
     permissions:
-      contents: read
+      contents: write
       packages: write
     steps:
       - name: Checkout repository
