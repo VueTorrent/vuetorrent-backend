@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.2](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.5.1...v2.5.2) (2025-07-20)
+
+
+### Bug Fixes
+
+* **deps:** Security patch ([#103](https://github.com/VueTorrent/vuetorrent-backend/issues/103)) ([63b5108](https://github.com/VueTorrent/vuetorrent-backend/commit/63b5108beef8777e861bf49477546bdfaa485298))
+
 ## [2.5.1](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.5.0...v2.5.1) (2025-05-30)
 
 
