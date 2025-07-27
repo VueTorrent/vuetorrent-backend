@@ -126,7 +126,9 @@ async function downloadUpdate(url) {
 }
 
 /**
- * @returns {Promise<[boolean, string]>}
+ * @returns {Promise<[boolean, string]>} A tuple where:
+ * - the first element is a boolean indicating whether an update was applied,
+ * - the second element is a string containing a status message.
  */
 export async function checkForUpdate() {
   let branchName
