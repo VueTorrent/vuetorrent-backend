@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.5.2...v2.6.0) (2025-07-27)
+
+
+### Features
+
+* **update:** Send 204 when no update was applied ([#107](https://github.com/VueTorrent/vuetorrent-backend/issues/107)) ([115d13d](https://github.com/VueTorrent/vuetorrent-backend/commit/115d13d48c9cb40aa7d350acbf4c5f73a5a679fb))
+
 ## [2.5.2](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.5.1...v2.5.2) (2025-07-20)
 
 
