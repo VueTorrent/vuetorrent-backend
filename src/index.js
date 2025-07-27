@@ -36,10 +36,14 @@ router.get('/ping', async (req, res) => {
 })
 router.get('/update', authMiddleware, async (req, res) => {
   try {
-    res.send(await checkForUpdate())
+    const updateResult = await checkForUpdate()
+    if (!updateResult[0])
+      res.status(204)
+
+    res.send(updateResult[1])
   } catch (err) {
     console.error(err)
-    res.status(500).send('Failed to update')
+    res.status(500).send('Failed to update, see backend logs for details')
   }
 })
 
@@ -53,16 +57,21 @@ app.use(async (req, res) => {
 
 function launchServer(serverInstance, protocol) {
   serverInstance.listen(PORT, async () => {
-    console.log('Checking for updates...')
-    console.log(await checkForUpdate())
     console.log(`${protocol} server is running on port ${PORT}`)
+
+    const run_update = async () => {
+      console.log('Checking for updates...')
+      console.log((await checkForUpdate())[1])
+    }
+    await run_update()
+
     const update_cron = process.env.UPDATE_VT_CRON
     if (update_cron && update_cron.length) {
       scheduler.scheduleJob(
         'Update VueTorrent',
         update_cron,
         async () => {
-          return await checkForUpdate()
+          await run_update()
         }
       );
     }

@@ -125,6 +125,9 @@ async function downloadUpdate(url) {
   }
 }
 
+/**
+ * @returns {Promise<[boolean, string]>}
+ */
 export async function checkForUpdate() {
   let branchName
   switch (process.env.RELEASE_TYPE) {
@@ -151,7 +154,7 @@ export async function checkForUpdate() {
   }
 
   if (!latestVersion) {
-    return `Unable to find candidate for release type "${ process.env.RELEASE_TYPE }"`
+    return [false, `Unable to find candidate for release type "${ process.env.RELEASE_TYPE }"`]
   }
 
   if (installedVersion?.version !== latestVersion?.version
@@ -162,7 +165,7 @@ export async function checkForUpdate() {
     } else {
       await downloadUpdate(BASE_URL_ZIPBALL + branchName)
     }
-    return `Update successful from ${ formatVersion(installedVersion) } to ${ formatVersion(latestVersion) }`
+    return [true, `Update successful from ${ formatVersion(installedVersion) } to ${ formatVersion(latestVersion) }`]
   }
-  return `Instance up-to-date using ref ${process.env.RELEASE_TYPE}`
+  return [false, `Instance up-to-date using ref ${process.env.RELEASE_TYPE}`]
 }
