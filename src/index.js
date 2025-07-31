@@ -37,10 +37,7 @@ router.get('/ping', async (req, res) => {
 router.get('/update', authMiddleware, async (req, res) => {
   try {
     const [wasUpdated, message] = await checkForUpdate()
-    if (!wasUpdated)
-      res.status(204)
-
-    res.send(message)
+    res.json({ was_updated: wasUpdated, message })
   } catch (err) {
     console.error(err)
     res.status(500).send('Failed to update, see backend logs for details')
