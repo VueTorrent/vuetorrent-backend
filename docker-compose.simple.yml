@@ -49,6 +49,9 @@ services:
       # https://github.com/settings/personal-access-tokens/new
       # - GITHUB_AUTH=${GITHUB_AUTH}
 
+      # Log all received requests
+      # - LOG_REQUESTS=true
+
       # If you want HTTPS, define the following variables with respective paths
       # - SSL_CERT_PATH=/config/ssl/cert.pem
       # - SSL_KEY_PATH=/config/ssl/key.pem

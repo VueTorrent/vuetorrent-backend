@@ -65,6 +65,9 @@ services:
       # Create a Github PAT with your account to increase API rate limit, fine-grained with only public repo access is enough
       # - GITHUB_AUTH=${GITHUB_AUTH}
 
+      # Log all received requests
+      # - LOG_REQUESTS=true
+
       # If you want HTTPS, define the following variables with respective paths
       # - SSL_CERT_PATH=/config/ssl/cert.pem
       # - SSL_KEY_PATH=/config/ssl/key.pem

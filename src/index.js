@@ -21,7 +21,9 @@ const router = Router()
 const PORT = process.env.PORT || 3000
 
 // Middlewares
-app.use(morgan('tiny'))
+if (process.env.LOG_REQUESTS === 'true') {
+  app.use(morgan('tiny'))
+}
 app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
 app.use(cookieParser())
