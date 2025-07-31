@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.7.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.6.0...v2.7.0) (2025-07-31)
+
+
+### Features
+
+* **logging:** Add LOG_REQUESTS env var ([2458c23](https://github.com/VueTorrent/vuetorrent-backend/commit/2458c2343c58e61cc9f396d85ad52824b0bc07b7)), closes [#110](https://github.com/VueTorrent/vuetorrent-backend/issues/110)
+
+
+### Bug Fixes
+
+* Update graceful shutdown to not throw an error ([1ed1efd](https://github.com/VueTorrent/vuetorrent-backend/commit/1ed1efd960c181372f539ba34e123f280864cc74))
+* **update:** Use valid return code to send reason ([66430d4](https://github.com/VueTorrent/vuetorrent-backend/commit/66430d445f37986f74f62412308f15b5ff745199))
+
 ## [2.6.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.5.2...v2.6.0) (2025-07-27)
 
 
