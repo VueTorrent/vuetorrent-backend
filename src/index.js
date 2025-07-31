@@ -56,7 +56,7 @@ app.use(async (req, res) => {
 })
 
 function launchServer(serverInstance, protocol) {
-  serverInstance.listen(PORT, async () => {
+  return serverInstance.listen(PORT, async () => {
     console.log(`${protocol} server is running on port ${PORT}`)
 
     const runUpdate = async () => {
@@ -82,11 +82,9 @@ const sslOptions = getSSLOptionsFromEnv()
 let server
 if (sslOptions) {
   const httpsServer = https.createServer(sslOptions, app)
-  server = httpsServer
-  launchServer(httpsServer, 'HTTPS')
+  server = launchServer(httpsServer, 'HTTPS')
 } else {
-  server = app
-  launchServer(app, 'HTTP')
+  server = launchServer(app, 'HTTP')
 }
 
 async function stopServer(signal) {
