@@ -1,11 +1,7 @@
 import axios from 'axios'
-import { config } from 'dotenv'
 import fs from 'fs'
 import JSZip from 'jszip'
 import path from 'path'
-
-config()
-
 
 const BASE_URL_VERSION = '/repos/VueTorrent/VueTorrent/contents/version.txt?ref='
 const BASE_URL_ZIPBALL = '/repos/VueTorrent/VueTorrent/zipball/'

@@ -1,6 +1,5 @@
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
-import { config } from 'dotenv'
 import express, { Router } from 'express'
 import https from 'https'
 import morgan from 'morgan'
@@ -12,7 +11,6 @@ import { checkForUpdate } from './routines/update.js'
 import { getSSLOptionsFromEnv } from './ssl.js'
 import { assert_env } from './utils.js'
 
-config()
 assert_env()
 
 const app = express()

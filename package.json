@@ -4,8 +4,8 @@
   "description": "Node.JS backend for VueTorrent",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon -w .env -w src/ src/index.js",
+    "start": "node --env-file=.env src/index.js",
+    "dev": "nodemon --env-file=.env -w .env -w src/ src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,7 +23,6 @@
     "axios": "^1.11.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "http-proxy": "^1.18.1",
     "jszip": "^3.10.1",
