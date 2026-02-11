@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.7.0...v2.7.1) (2026-02-11)
+
+
+### Bug Fixes
+
+* **update:** Catch HTTP errors when calling GitHub ([#127](https://github.com/VueTorrent/vuetorrent-backend/issues/127)) ([b89ffd4](https://github.com/VueTorrent/vuetorrent-backend/commit/b89ffd44f1fd5d6d47394e9ecbaa1d79ab6ef86b))
+
 ## [2.7.0](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.6.0...v2.7.0) (2025-07-31)
 
 
