@@ -61,11 +61,11 @@ function getInstalledVersion() {
 function catchAxiosError(err) {
   if (err.response) {
     if (err.response.status === 403) {
-      console.log("Rate limited, skipping update", error.message)
+      console.log("Rate limited, skipping update")
       return undefined
     }
   }
-  console.log(error.message)
+  console.log(err.message)
 }
 
 async function getLatestVersion(ref) {
@@ -73,11 +73,11 @@ async function getLatestVersion(ref) {
   let response
   try {
     response = await githubClient.get(BASE_URL_VERSION + ref)
-  } catch (e) {
+  } catch (error) {
     if (error instanceof AxiosError) {
-      return catchAxiosError(e)
+      return catchAxiosError(error)
     }
-    log.console("Unknown error", e)
+    log.console("Unknown error", error)
     return undefined
   }
 
