@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import fs from 'fs'
 import JSZip from 'jszip'
 import path from 'path'
@@ -53,9 +53,33 @@ function getInstalledVersion() {
   }
 }
 
+/**
+ * Handler for `AxiosError`s when trying to fetch update metadata from GitHub
+ * @param err {AxiosError}
+ * @returns {VersionType | undefined}
+ */
+function catchAxiosError(err) {
+  if (err.response) {
+    if (err.response.status === 403) {
+      console.log("Rate limited, skipping update")
+      return undefined
+    }
+  }
+  console.log(err.message)
+}
+
 async function getLatestVersion(ref) {
   /** @type {AxiosResponse<Record<string, any>>} */
-  const response = await githubClient.get(BASE_URL_VERSION + ref)
+  let response
+  try {
+    response = await githubClient.get(BASE_URL_VERSION + ref)
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return catchAxiosError(error)
+    }
+    log.console("Unknown error", error)
+    return undefined
+  }
 
   // Extract from base64
   return extractVersion(atob(response.data.content.trim()))
@@ -115,6 +139,9 @@ async function downloadUpdate(url) {
   } catch (err) {
     console.error(err)
     // Restore backup if unzip fails
+    if (fs.existsSync(WEBUI_PATH)) {
+      fs.rmSync(WEBUI_PATH, { recursive: true })
+    }
     if (fs.existsSync(WEBUI_OLD_PATH)) {
       fs.renameSync(WEBUI_OLD_PATH, WEBUI_PATH)
     }

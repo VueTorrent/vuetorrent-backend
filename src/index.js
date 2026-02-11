@@ -49,7 +49,7 @@ app.use('/backend', router)
 // WebUI
 app.use(express.static(`${process.env.VUETORRENT_PATH || '/vuetorrent'}/vuetorrent/public`))
 app.use(async (req, res) => {
-  res.status(404).send('404 Not Found')
+  res.status(404).send('VueTorrent installation not found, make sure the URL is correct and check console output for any errors')
 })
 
 function launchServer(serverInstance, protocol) {
