@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios'
+import axiosRetry from 'axios-retry'
 import fs from 'fs'
 import JSZip from 'jszip'
 import path from 'path'
@@ -23,6 +24,33 @@ const githubClient = axios.create({
     Authorization: process.env.GITHUB_AUTH ? `Bearer ${process.env.GITHUB_AUTH}` : undefined,
     'User-Agent': `vuetorrent/vuetorrent-backend`
   }
+})
+
+/**
+ * @param error {AxiosError}
+ * @returns {boolean}
+ */
+function isRateLimitError(error) {
+  return [403, 429].includes(error.response?.status) && error.response.headers['x-ratelimit-remaining'] === '0'
+}
+
+/**
+ * @param error {AxiosError}
+ * @returns {boolean}
+ */
+function shouldRetryRequest(error) {
+  if (!error.response) {
+    return true
+  }
+
+  return !isRateLimitError(error)
+}
+
+axiosRetry(githubClient, {
+  retries: 3,
+  retryDelay: (retryCount, error) => axiosRetry.exponentialDelay(retryCount, error, 1500),
+  onRetry: (retryCount, err) => console.log(`Attempt ${retryCount}: ${err.message}`),
+  retryCondition: shouldRetryRequest
 })
 
 /** @typedef {{ version: string; commits?: string; sha?: string }} VersionType */
@@ -60,7 +88,7 @@ function getInstalledVersion() {
  */
 function catchAxiosError(err) {
   if (err.response) {
-    if (err.response.status === 403) {
+    if (isRateLimitError(err)) {
       console.log("Rate limited, skipping update")
       return undefined
     }
