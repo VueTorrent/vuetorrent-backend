@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.2](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.7.1...v2.7.2) (2026-02-18)
+
+
+### Bug Fixes
+
+* **update:** Retry failing update calls ([#132](https://github.com/VueTorrent/vuetorrent-backend/issues/132)) ([d390c32](https://github.com/VueTorrent/vuetorrent-backend/commit/d390c329dfc797176d33a759f9e9f0efd52d923f))
+
 ## [2.7.1](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.7.0...v2.7.1) (2026-02-11)
 
 
