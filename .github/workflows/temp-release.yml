@@ -43,7 +43,7 @@ jobs:
           tags: ${{ github.event.inputs.name }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         env:
           DOCKER_BUILD_SUMMARY: false
         with:
