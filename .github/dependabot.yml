@@ -5,6 +5,10 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+    groups:
+      all-gh-actions:
+        patterns:
+          - '*'
 
   # Maintain dependencies for npm
   - package-ecosystem: 'npm'
@@ -12,6 +16,6 @@ updates:
     schedule:
       interval: 'weekly'
     groups:
-      all:
+      all-npm:
         patterns:
           - '*'
