@@ -28,7 +28,7 @@ app.use(cookieParser())
 
 // Routers
 app.use('/api', qbitRouter)
-router.use('/config', authMiddleware, configRouter)
+router.use('/config', configRouter)
 
 // Routes
 router.get('/ping', async (req, res) => {
