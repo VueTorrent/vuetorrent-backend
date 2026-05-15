@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.3](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.7.2...v2.7.3) (2026-05-15)
+
+
+### Bug Fixes
+
+* **auth:** support qBittorrent 5.2.0 new session cookies ([#153](https://github.com/VueTorrent/vuetorrent-backend/issues/153)) ([f4c95e9](https://github.com/VueTorrent/vuetorrent-backend/commit/f4c95e95fa6bb115dad5ce29c12a53dcd8399da5))
+
 ## [2.7.2](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.7.1...v2.7.2) (2026-02-18)
 
 
