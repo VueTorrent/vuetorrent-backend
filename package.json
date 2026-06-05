@@ -20,14 +20,14 @@
   "homepage": "https://github.com/VueTorrent/vuetorrent-backend#readme",
   "type": "module",
   "dependencies": {
-    "axios": "^1.16.0",
+    "axios": "^1.17.0",
     "axios-retry": "^4.5.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "http-proxy": "^1.18.1",
     "jszip": "^3.10.1",
-    "morgan": "^1.10.1",
+    "morgan": "^1.11.0",
     "node-schedule": "^2.1.1"
   },
   "devDependencies": {
