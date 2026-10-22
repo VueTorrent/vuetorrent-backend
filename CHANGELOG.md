@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.4](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.7.3...v2.7.4) (2026-10-22)
+
+
+### Bug Fixes
+
+* Bumps ([d0ef3b7](https://github.com/VueTorrent/vuetorrent-backend/commit/d0ef3b7fcdd04d70d586e179dcedd14efd5c8b9f))
+
 ## [2.7.3](https://github.com/VueTorrent/vuetorrent-backend/compare/v2.7.2...v2.7.3) (2026-05-15)
 
 
